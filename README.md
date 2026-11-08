@@ -8,10 +8,10 @@ Mini-projet **Architecture Web Distribuée (AWD)** · ESPRIT · Année universit
 
 | Étudiant | Nom | Microservice |
 |---|---|---|
-| Étudiant 1 | _à compléter_ | MS1 `property-service` |
-| Étudiant 2 | _à compléter_ | MS2 `policy-service` |
-| Étudiant 3 | _à compléter_ | MS3 `pricing-service` |
-| Étudiant 4 | _à compléter_ | MS4 `claims-service` |
+| Étudiant 1 | _Taha Yassine Snoussi_ | MS1 `property-service` |
+| Étudiant 2 | _Fathi Mejry_ | MS2 `policy-service` |
+| Étudiant 3 | _Mariem Amdouni_ | MS3 `pricing-service` |
+| Étudiant 4 | _Molka Baccari_ | MS4 `claims-service` |
 | Groupe | tous les membres | MS5 `risk-engine-service` (microservice commun) |
 
 **Suivi des tâches :** _lien du tableau GitHub Projects à ajouter ici_
