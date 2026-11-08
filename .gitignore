@@ -1,0 +1,54 @@
+# ===== Java / Maven (tous les microservices Spring Boot) =====
+target/
+!.mvn/wrapper/maven-wrapper.jar
+*.class
+*.jar
+*.war
+*.log
+hs_err_pid*
+
+# ===== Bases de données locales (H2 en mode fichier) =====
+*.mv.db
+*.trace.db
+
+# ===== IDE =====
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.classpath
+.project
+.settings/
+.factorypath
+.apt_generated/
+.sts4-cache/
+*.code-workspace
+
+# ===== Frontend (Angular / Node) =====
+node_modules/
+dist/
+.angular/
+npm-debug.log*
+
+# ===== Python (MS5 risk-engine-service) =====
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# ===== Secrets et variables d'environnement =====
+.env
+.env.*
+!.env.example
+
+# ===== Docker (données locales) =====
+docker-data/
+
+# ===== Système =====
+.DS_Store
+Thumbs.db
+desktop.ini
