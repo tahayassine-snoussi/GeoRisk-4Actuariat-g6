@@ -67,22 +67,24 @@ Infrastructure : `api-gateway` (8080), `eureka-server` (8761), `config-server` (
 
 ```
 GeoRisk-4Actuariat-g6/
-├── Backend/                 un projet par microservice + l'infrastructure
-│   ├── property-service/
-│   ├── policy-service/
-│   ├── pricing-service/
-│   ├── claims-service/
-│   ├── risk-engine-service/
-│   ├── api-gateway/
-│   ├── eureka-server/
-│   └── config-server/
-├── Frontend/                application web (Angular)
+├── Backend/
+│   ├── microservices/           5 microservices métier (un projet par service)
+│   │   ├── property-service/
+│   │   ├── policy-service/
+│   │   ├── pricing-service/
+│   │   ├── claims-service/
+│   │   └── risk-engine-service/
+│   ├── gateway/                 point d'entrée unique
+│   │   └── api-gateway/
+│   ├── discovery/               découverte de services
+│   │   └── eureka-server/
+│   └── config/                  configuration centralisée
+│       └── config-server/
+├── Frontend/                    application web (Angular)
 ├── Documentation/
-│   ├── Presentation/        support de présentation (séance 4)
-│   └── Diagrams/            architecture globale, cas d'utilisation, diagrammes de classes
+│   ├── Presentation/            support de présentation (séance 4)
+│   └── Diagrams/                architecture globale, cas d'utilisation, diagrammes de classes
 └── README.md
-```
-
 ## Lancement
 
 > À compléter au fil de l'avancement du projet (docker-compose prévu en séance 9).
