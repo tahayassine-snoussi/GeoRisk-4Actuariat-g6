@@ -16,4 +16,6 @@ public interface QuoteRepository extends JpaRepository<Quote, Long> {
 
     // les devis encore VALID dont la date est dépassée (pour les passer à EXPIRED)
     List<Quote> findByStatusAndValidUntilBefore(QuoteStatus status, LocalDate date);
+
+    boolean existsByZoneZoneId(String zoneId);   // une zone est-elle utilisée par un devis ?
 }

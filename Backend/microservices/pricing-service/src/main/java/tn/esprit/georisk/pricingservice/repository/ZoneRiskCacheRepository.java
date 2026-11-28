@@ -6,4 +6,5 @@ import tn.esprit.georisk.pricingservice.domain.entities.ZoneRiskCache;
 
 @Repository
 public interface ZoneRiskCacheRepository extends JpaRepository<ZoneRiskCache, String> {
+
 }

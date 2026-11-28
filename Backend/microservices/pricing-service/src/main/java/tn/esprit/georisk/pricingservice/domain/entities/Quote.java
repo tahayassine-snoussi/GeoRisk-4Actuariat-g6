@@ -3,6 +3,8 @@ package tn.esprit.georisk.pricingservice.domain.entities;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -37,8 +39,9 @@ public class Quote {
     @Column(nullable = false)
     private Long proprieteId;
 
-    @Column(nullable = false)
-    private String zoneId;
+    @ManyToOne(optional = false)              // plusieurs devis -> une zone
+    @JoinColumn(name = "zone_id", nullable = false)
+    private ZoneRiskCache zone;
 
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal insuredValue;    // valeur assurée (TND)
