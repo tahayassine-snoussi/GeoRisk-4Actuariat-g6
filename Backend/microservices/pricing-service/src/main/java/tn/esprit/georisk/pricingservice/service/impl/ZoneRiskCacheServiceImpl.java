@@ -7,6 +7,7 @@ import org.springframework.web.server.ResponseStatusException;
 import tn.esprit.georisk.pricingservice.domain.entities.ZoneRiskCache;
 import tn.esprit.georisk.pricingservice.repository.ZoneRiskCacheRepository;
 import tn.esprit.georisk.pricingservice.service.interfaces.IZoneRiskCacheService;
+import tn.esprit.georisk.pricingservice.repository.QuoteRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 public class ZoneRiskCacheServiceImpl implements IZoneRiskCacheService {
 
     private final ZoneRiskCacheRepository repository;
+    private final QuoteRepository quoteRepository;
 
     @Override
     public List<ZoneRiskCache> getAll() {
@@ -51,7 +53,11 @@ public class ZoneRiskCacheServiceImpl implements IZoneRiskCacheService {
 
     @Override
     public void delete(String zoneId) {
-        getById(zoneId);                              // 404 si absente
+        getById(zoneId);                                   // 404 si absente
+        if (quoteRepository.existsByZoneZoneId(zoneId)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    "La zone " + zoneId + " est utilisée par des devis");
+        }
         repository.deleteById(zoneId);
     }
 
