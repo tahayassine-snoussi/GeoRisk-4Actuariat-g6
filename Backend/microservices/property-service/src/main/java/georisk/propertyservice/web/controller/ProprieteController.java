@@ -36,6 +36,11 @@ public class ProprieteController {
         return service.getByStatut(statut);
     }
 
+    @GetMapping("/proprietaire/{idProprietaire}")
+    public List<Propriete> getByProprietaire(@PathVariable Long idProprietaire) {
+        return service.getByProprietaire(idProprietaire);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Propriete create(@RequestBody Propriete propriete) {

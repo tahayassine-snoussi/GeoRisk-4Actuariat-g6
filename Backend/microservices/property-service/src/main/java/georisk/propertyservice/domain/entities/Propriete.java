@@ -42,5 +42,7 @@ public class Propriete {
     @Enumerated(EnumType.STRING)
     StatutPropriete statut;
 
+    @ManyToOne
+    Proprietaire proprietaire;
 
 }

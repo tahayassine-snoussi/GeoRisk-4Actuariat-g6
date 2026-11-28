@@ -1,11 +1,15 @@
 package georisk.propertyservice.domain.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,4 +29,10 @@ public class Proprietaire {
     String prenom;
     String email;
     String telephone;
+
+
+    @OneToMany(mappedBy = "proprietaire")
+    @JsonIgnore
+    List<Propriete> proprietes = new ArrayList<>();
+
 }

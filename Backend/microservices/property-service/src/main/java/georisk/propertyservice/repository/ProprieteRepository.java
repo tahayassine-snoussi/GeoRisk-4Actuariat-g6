@@ -11,4 +11,8 @@ public interface ProprieteRepository extends JpaRepository<Propriete, Long> {
     List<Propriete> findByVille(String ville);
 
     List<Propriete> findByStatut(StatutPropriete statut);
+
+    List<Propriete> findByProprietaire_IdProprietaire(Long idProprietaire);
+
+    boolean existsByProprietaire_IdProprietaire(Long idProprietaire);
 }

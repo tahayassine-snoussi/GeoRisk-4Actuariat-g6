@@ -1,7 +1,9 @@
 package georisk.propertyservice.service.impl;
 
+import georisk.propertyservice.domain.entities.Proprietaire;
 import georisk.propertyservice.domain.entities.Propriete;
 import georisk.propertyservice.domain.enums.StatutPropriete;
+import georisk.propertyservice.repository.ProprietaireRepository;
 import georisk.propertyservice.repository.ProprieteRepository;
 import georisk.propertyservice.service.interfaces.IProprieteService;
 import lombok.RequiredArgsConstructor;
@@ -10,13 +12,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ProprieteServiceImpl implements IProprieteService {
 
+    private static final BigDecimal VALEUR_MIN = new BigDecimal("20000");
+    private static final BigDecimal VALEUR_MAX = new BigDecimal("2000000");
+
     private final ProprieteRepository repository;
+    private final ProprietaireRepository proprietaireRepository;
 
     @Override
     public List<Propriete> getAll() {
@@ -41,16 +48,38 @@ public class ProprieteServiceImpl implements IProprieteService {
     }
 
     @Override
+    public List<Propriete> getByProprietaire(Long idProprietaire) {
+        return repository.findByProprietaire_IdProprietaire(idProprietaire);
+    }
+
+    @Override
     @Transactional
     public Propriete create(Propriete propriete) {
-        propriete.setIdPropriete(null);   // l'id est généré par la base
+        verifierValeur(propriete.getValeur());
+
+        if (propriete.getProprietaire() == null
+                || propriete.getProprietaire().getIdProprietaire() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Le propriétaire est obligatoire");
+        }
+        Long idProprietaire = propriete.getProprietaire().getIdProprietaire();
+        Proprietaire proprietaire = proprietaireRepository.findById(idProprietaire)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Propriétaire " + idProprietaire + " introuvable"));
+
+        propriete.setIdPropriete(null);
+        propriete.setProprietaire(proprietaire);
+        propriete.setQuoteId(null);
+        propriete.setStatut(StatutPropriete.ENREGISTREE);
         return repository.save(propriete);
     }
 
     @Override
     @Transactional
     public Propriete update(Long id, Propriete data) {
-        Propriete existing = getById(id);   // 404 si absent
+        verifierValeur(data.getValeur());
+
+        Propriete existing = getById(id);
         existing.setAdresse(data.getAdresse());
         existing.setVille(data.getVille());
         existing.setLatitude(data.getLatitude());
@@ -61,8 +90,7 @@ public class ProprieteServiceImpl implements IProprieteService {
         existing.setAnneeConstruction(data.getAnneeConstruction());
         existing.setEtage(data.getEtage());
         existing.setValeur(data.getValeur());
-        existing.setStatut(data.getStatut());
-        // quoteId volontairement non modifiable ici : il est lié au devis du pricing-service
+        // proprietaire, quoteId et statut non modifiables ici
         return repository.save(existing);
     }
 
@@ -76,5 +104,12 @@ public class ProprieteServiceImpl implements IProprieteService {
                             + " : suppression interdite");
         }
         repository.delete(existing);
+    }
+
+    private void verifierValeur(BigDecimal valeur) {
+        if (valeur == null || valeur.compareTo(VALEUR_MIN) < 0 || valeur.compareTo(VALEUR_MAX) > 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "La valeur doit être comprise entre 20 000 et 2 000 000 TND");
+        }
     }
 }
